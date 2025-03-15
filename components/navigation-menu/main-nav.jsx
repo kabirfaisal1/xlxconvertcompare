@@ -19,16 +19,21 @@ export function MainNav ( { className, ...props } )
   const [activeLabel, setActiveLabel] = useState( "Convert and Compare Excel" );
 
   /**
-   * Navigation routes for the application
+   * Navigation routes for the application excelComparison
    */
   const routes = [
     {
-      href: `/excelConverter`,
+      href: "/excelConverter",
       label: "Convert Excel to Code",
       id: "excel_converter",
     },
     {
-      href: `/jsonConverter`,
+      href: "/excelComparison",
+      label: "Compare Excel Files",
+      id: "excel_comparison",
+    },
+    {
+      href: "/jsonConverter",
       label: "Convert JSON to Excel",
       id: "json_converter",
     },
