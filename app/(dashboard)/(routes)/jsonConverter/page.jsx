@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import * as XLSX from "xlsx";
 import { Separator } from "@/components/ui/separator";
 import { Form } from "@/components/ui/form";
+import { ToastContainer, toast } from "react-toastify";
 import Heading from "@/components/ui/heading";
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext } from "@/components/ui/pagination";
 
@@ -18,7 +19,7 @@ export default function JsonToExcel ()
   const [code, setCode] = useState( "" );
   const [tableLoaded, setTableLoaded] = useState( false );
   const [currentPage, setCurrentPage] = useState( 1 );
-  const itemsPerPage = 5;
+  const itemsPerPage = 15;
 
   const title = "Json File Uploader & Converter";
   const description = `Easily upload a JSON file and convert data from its first sheet into structured code formats.
@@ -42,12 +43,14 @@ export default function JsonToExcel ()
         setCurrentPage( 1 );
       } else
       {
-        alert( "Invalid JSON format. Must be an array of objects." );
+        toast.error( "Invalid JSON format. Must be an array of objects." );
+        // alert( "Invalid JSON format. Must be an array of objects." );
         setTableLoaded( false );
       }
     } catch ( error )
     {
-      alert( "Invalid JSON input" );
+      toast.error( "Invalid JSON input" );
+
       setTableLoaded( false );
     }
   };
@@ -66,6 +69,7 @@ export default function JsonToExcel ()
     const filename = `convertedData_${ month }${ day }${ year }_${ timestamp }.xlsx`;
 
     XLSX.writeFile( workbook, filename );
+    toast.success( `Excel file downloaded successfully as ${ filename }` );
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -75,15 +79,17 @@ export default function JsonToExcel ()
 
   return (
     <div className="container mx-auto p-4">
+      <ToastContainer />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
       </div>
       <Separator />
       <div className="mt-6" style={{ backgroundColor: "#EFF3EA", padding: "20px", borderRadius: "8px" }}>
-        <Form>
+        <Form data-testid="jsonForm" className="flex flex-col items-center justify-center">
           <form>
-            <Button className="mb-4" type="button" onClick={submitForm}>Convert to Table</Button>
+            <Button data-testid="convertTable_Button" className="mb-4" type="button" onClick={submitForm}>Convert to Table</Button>
             <Editor
+              data-testid="jsonEditor"
               height="200px"
               language="json"
               theme="vs-dark"
@@ -108,10 +114,12 @@ export default function JsonToExcel ()
       </div>
       {tableLoaded && (
         <div className="mt-6">
-          <Button className="mb-4" type="button" onClick={downloadExcel}>Download Excel</Button>
+          <Button
+            data-testid="downloadExcel_Button" variant="secondary" disabled={jsonData.length === 0}
+            className="mb-4" type="button" onClick={downloadExcel}>Download Excel</Button>
           <Card>
             <CardContent className="p-4">
-              <Table>
+              <Table data-testid="dataTable" className="w-full">
                 <TableHeader>
                   <TableRow>
                     {columns.map( ( col, index ) => (
@@ -129,16 +137,22 @@ export default function JsonToExcel ()
                   ) )}
                 </TableBody>
               </Table>
-              <Pagination>
+              <Pagination data-testid="pagination" className="mt-4">
                 <PaginationContent>
                   <PaginationItem>
-                    <PaginationPrevious onClick={() => setCurrentPage( ( prev ) => Math.max( prev - 1, 1 ) )} disabled={currentPage === 1} />
+                    <PaginationPrevious
+                      data-testid="previousPage_Button"
+                      onClick={() => setCurrentPage( ( prev ) => Math.max( prev - 1, 1 ) )} disabled={currentPage === 1} />
                   </PaginationItem>
                   <PaginationItem>
-                    <span className="px-4">Page {currentPage} of {totalPages}</span>
+                    <span
+                      data-testid="currentPage_Text"
+                      className="px-4">Page {currentPage} of {totalPages}</span>
                   </PaginationItem>
                   <PaginationItem>
-                    <PaginationNext onClick={() => setCurrentPage( ( prev ) => Math.min( prev + 1, totalPages ) )} disabled={currentPage === totalPages} />
+                    <PaginationNext
+                      data-testid="nextPage_Button"
+                      onClick={() => setCurrentPage( ( prev ) => Math.min( prev + 1, totalPages ) )} disabled={currentPage === totalPages} />
                   </PaginationItem>
                 </PaginationContent>
               </Pagination>
