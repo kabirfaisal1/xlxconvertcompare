@@ -78,10 +78,16 @@ export default function JsonToExcel ()
               height="200px"
               language="json"
               theme="vs-dark"
-              placeholder="Paste or type your JSON here..."
+
               onChange={handleJsonInput}
               value={code}
               options={{
+                placeholder: 'Paste or type your JSON here...\nExample: [{"name":"John", "age":30}, {"name":"Jane", "age":25}]',
+                tabSize: 2,
+                automaticLayout: true,
+                lineNumbers: "on",
+                lineDecorationsWidth: 0,
+                lineNumbersMinChars: 2,
                 fontSize: "16px",
                 formatOnType: true,
                 autoClosingBrackets: true,
