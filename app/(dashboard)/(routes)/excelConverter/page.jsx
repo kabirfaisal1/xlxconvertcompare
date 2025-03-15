@@ -83,11 +83,12 @@ export default function ExcelConverter ()
       const binaryStr = e.target.result;
 
       // Parse the binary string into a workbook object using XLSX
-      const workbook = XLSX.read(binaryStr, { type: "binary" });
+      const workbook = XLSX.read( binaryStr, { type: "binary" } );
 
       // Check if the workbook contains any sheets
-      if (!workbook.SheetNames.length) {
-        setState((prev) => ({ ...prev, codeSnippet: "// No data found." }));
+      if ( !workbook.SheetNames.length )
+      {
+        setState( ( prev ) => ( { ...prev, codeSnippet: "// No data found." } ) );
         return;
       }
 
@@ -115,7 +116,7 @@ export default function ExcelConverter ()
 
       // Extract headers from the first row and trim any extra spaces
       const headers = rawData[0].map( ( header ) => header.trim() );
-      
+
       // Map the remaining rows to objects using the headers as keys
       const formattedData = rawData.slice( 1 ).map( row =>
         Object.fromEntries( headers.map( ( header, i ) => [header, row[i] ?? ""] ) )
@@ -130,64 +131,113 @@ export default function ExcelConverter ()
     };
   };
 
-  const generateCodeSnippet = useCallback( () =>
+  const generateCodeSnippet = () =>
   {
+    // If there's no data or the variable name is invalid, set an error message and exit.
     if ( !state.data.length || state.variableError )
     {
       setState( ( prev ) => ( { ...prev, codeSnippet: "// No data found or invalid variable name." } ) );
       return;
     }
 
+    // Extract necessary values from the component state
     const { format, variableName, data } = state;
+
+    // Trim whitespace from the variable name to ensure proper formatting
     const validVariableName = variableName.trim();
+
+    // Get the headers (keys) from the first data object
     const headers = Object.keys( data[0] );
 
-    const formattedData = data.map( ( row ) =>
-      headers.reduce( ( obj, header ) =>
-      {
-        let value = row[header];
-        obj[header] = value === 0 ? false : value === 1 ? true : value;
-        return obj;
-      }, {} )
-    );
+    // Convert data to a properly formatted JSON string (used for multiple formats)
+    const jsonData = JSON.stringify( data, null, 4 );
 
+    /**
+     * Helper function to format the data into a C# List<> declaration.
+     */
+    const formatCSharp = ( variableName, data, headers ) =>
+    {
+      // Capitalize the first letter of the variable name for proper class naming
+      const className = variableName.charAt( 0 ).toUpperCase() + variableName.slice( 1 );
+
+      // Generate C# interface
+      const csharpInterface = `public class ${ className } \n{\n` +
+        headers.map( header => `    public string ${ header } { get; set; }` ).join( ";\n" ) +
+        ";\n}";
+
+      // Generate C# List<> declaration
+      const csharpList = `List<${ className }> ${ variableName } = new List<${ className }>\n{\n` +
+        data.map(
+          item =>
+            `    new ${ className } { ${ headers.map( header => `${ header } = ${ JSON.stringify( item[header] ) }` ).join( ", " ) } },`
+        ).join( "\n" ) +
+        "\n};";
+
+      return `${ csharpInterface }\n\n${ csharpList }`;
+    };
+
+    /**
+     * Helper function to format data as a Python list of dictionaries.
+     */
+    const formatPython = ( data ) =>
+    {
+      return "[\n" + data.map( ( item ) => `   ${ JSON.stringify( item ) }` ).join( ",\n" ) + "\n]";
+    };
+
+    /**
+     * Helper function to generate a TypeScript interface and array of objects.
+     */
+    const formatTypeScript = ( variableName, data, headers ) =>
+    {
+      // Generate TypeScript interface based on headers
+      const interfaceName = `I${ variableName.charAt( 0 ).toUpperCase() + variableName.slice( 1 ) }`;
+      const tsInterface = `interface ${ interfaceName } {\n` +
+        headers.map( ( header ) => `  ${ header }: string | number;` ).join( "\n" ) +
+        `\n}\n`;
+
+      // Generate TypeScript array declaration
+      const tsArray = `const ${ variableName }: ${ interfaceName }[] = ${ jsonData };`;
+
+      return `${ tsInterface }\n${ tsArray }`;
+    };
+
+    // Initialize an empty code string
     let code = "";
+
+    // Determine the output format based on the selected option
     switch ( format )
     {
-      case "json":
-        code = JSON.stringify( formattedData, null, 4 );
+      case "json": // Standard JSON format
+        code = jsonData;
         break;
-      case "js":
-        code = `const ${ validVariableName } = ${ JSON.stringify( formattedData, null, 4 ) };`;
+      case "python": // Properly formatted Python list of dictionaries
+        code = `${ validVariableName } = ${ formatPython( data ) }`;
         break;
-      case "csharp":
-        code = `List<${ validVariableName }> ${ validVariableName } = new List<${ validVariableName }>\n{\n` +
-          formattedData
-            .map(
-              ( item ) =>
-                `    new ${ validVariableName } { ${ headers
-                  .map( ( header ) => `${ header } = ${ JSON.stringify( item[header] ) }` )
-                  .join( ", " ) } },`
-            )
-            .join( "\n" ) +
-          "\n};";
+      case "js": // JavaScript variable declaration
+        code = `const ${ validVariableName } = ${ jsonData };`;
         break;
-      case "python":
-        code = `${ validVariableName } = ${ JSON.stringify( formattedData, null, 4 ) }`;
+      case "typescript": // TypeScript formatted output
+        code = formatTypeScript( validVariableName, data, headers );
+        break;
+      case "csharp": // C# List<> object format
+        code = formatCSharp( validVariableName, data, headers );
         break;
       default:
-        code = "";
+        code = ""; // If the format is not recognized, return an empty string
     }
 
+    // Update the state with the generated code snippet
     setState( ( prev ) => ( { ...prev, codeSnippet: code } ) );
-  }, [state.format, state.variableName, state.data, state.variableError] );
+  };
 
+
+  // Automatically generate the code snippet whenever the format, variable name, or data changes
   useEffect( () =>
   {
     if ( state.data.length )
     {
-      const timeout = setTimeout( generateCodeSnippet, 300 );
-      return () => clearTimeout( timeout );
+      const timeout = setTimeout( generateCodeSnippet, 300 ); // Debounce to avoid excessive updates
+      return () => clearTimeout( timeout ); // Cleanup timeout on component unmount or dependency change
     }
   }, [state.format, state.variableName, state.data, generateCodeSnippet] );
 
@@ -267,6 +317,7 @@ export default function ExcelConverter ()
           >
             <option value="json">JSON</option>
             <option value="js">JavaScript</option>
+            <option value="typescript">TypeScript</option>
             <option value="csharp">C#</option>
             <option value="python">Python</option>
           </select>
