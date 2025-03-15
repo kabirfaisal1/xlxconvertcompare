@@ -6,17 +6,7 @@ import { Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Heading from "@/components/ui/heading";
-import
-{
-  Table,
-  TableHead,
-  TableRow,
-  TableHeader,
-  TableBody,
-  TableCell,
-} from "@/components/ui/table";
-import { ResizablePanel, ResizablePanelGroup, ResizableHandle } from "@/components/ui/resizable";
-import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext } from "@/components/ui/pagination";
+import { TableSection } from "@/components/ui/customTable";
 
 export default function ExcelComparison ()
 {
@@ -117,92 +107,45 @@ export default function ExcelComparison ()
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Button onClick={() => fileInputRefOne.current?.click()}>
+          <Button
+            data-testid="uploadFileOne_Button"
+            onClick={() => fileInputRefOne.current?.click()}>
             <Upload /> {fileOneName || "Upload First File"}
           </Button>
           <input ref={fileInputRefOne} type="file" accept=".xls,.xlsx" onChange={( e ) => handleFileUpload( e, setFileOneData, setFileOneName )} hidden />
         </div>
         <div>
-          <Button onClick={() => fileInputRefTwo.current?.click()}>
+          <Button
+            data-testid="uploadFileTwo_Button"
+            onClick={() => fileInputRefTwo.current?.click()}>
             <Upload /> {fileTwoName || "Upload Second File"}
           </Button>
           <input ref={fileInputRefTwo} type="file" accept=".xls,.xlsx" onChange={( e ) => handleFileUpload( e, setFileTwoData, setFileTwoName )} hidden />
         </div>
       </div>
 
-      <Button className="mt-4" onClick={compareFiles} disabled={!fileOneData.length || !fileTwoData.length}>
+      <Button
+        data-testid="compareFiles_Button"
+        variant="default"
+        className="mt-4" onClick={compareFiles}
+        disabled={!fileOneData.length || !fileTwoData.length}>
         Compare Files
       </Button>
 
-      <Separator className="my-4" />
-      {/* //       <div className="flex items-center justify-between">  </div>
-      {matchingData.length > 0 && headers.length > 0 &&
-
-        <TableSection title="Matching Data" data={matchingData} headers={headers} />}
-      {( unmatchedDataOne.length > 0 || unmatchedDataTwo.length > 0 ) && headers.length > 0 && <TableSection title="Unmatched Data" dataOne={unmatchedDataOne} dataTwo={unmatchedDataTwo} headers={headers} />} */}
-      <div className="mt-4 text-lg font-bold" style={{ color: getMatchColor( matchPercentage ) }}>
-        Data Match: {matchPercentage}%
-      </div>
       {matchingData.length > 0 && headers.length > 0 && (
         <>
-
+          <Separator className="my-4" />
+          <div className="mt-4 text-lg font-bold" style={{ color: getMatchColor( matchPercentage ) }}>
+            Data Match: {matchPercentage}%
+          </div>
           <TableSection title="Matching Data" data={matchingData} headers={headers} />
-          {( unmatchedDataOne.length > 0 || unmatchedDataTwo.length > 0 ) && headers.length > 0 && <TableSection title="Unmatched Data" dataOne={unmatchedDataOne} dataTwo={unmatchedDataTwo} headers={headers} />}
-
+          {( unmatchedDataOne.length > 0 || unmatchedDataTwo.length > 0 ) && headers.length > 0 && (
+            <TableSection title="Unmatched Data" dataOne={unmatchedDataOne} dataTwo={unmatchedDataTwo} headers={headers} />
+          )}
         </>
       )}
     </div>
   );
 }
 
-function TableSection ( { title, data, dataOne, dataTwo, headers } )
-{
-  return (
-    <div className="mt-6">
-      <h2 className="text-xl font-semibold">{title}</h2>
-      {data ? (
-        <PaginatedTable data={data} headers={headers} />
-      ) : (
-        <ResizablePanelGroup direction="horizontal">
-          <ResizablePanel className="font-bold shadow-md shadow-[#CCD3CA]">
-            <PaginatedTable data={dataOne} headers={headers} />
-          </ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel className="font-bold shadow-md shadow-[#CCD3CA]">
-            <PaginatedTable data={dataTwo} headers={headers} />
-          </ResizablePanel>
-        </ResizablePanelGroup>
-      )}
-    </div>
-  );
-}
 
-function PaginatedTable ( { data, headers } )
-{
-  const [currentPage, setCurrentPage] = useState( 1 );
-  const rowsPerPage = 25;
-  const totalPages = Math.ceil( data.length / rowsPerPage );
-  const paginatedData = data.slice( ( currentPage - 1 ) * rowsPerPage, currentPage * rowsPerPage );
-
-  return (
-    <>
-      <Table>
-        <TableHeader>
-          <TableRow>{headers.map( ( header, index ) => <TableHead key={index}>{header}</TableHead> )}</TableRow>
-        </TableHeader>
-        <TableBody>
-          {paginatedData.map( ( row, index ) => (
-            <TableRow key={index}>{headers.map( ( key, i ) => <TableCell key={i}>{row[key] || "N/A"}</TableCell> )}</TableRow>
-          ) )}
-        </TableBody>
-      </Table>
-      <Pagination className="mt-4">
-        <PaginationContent>
-          <PaginationItem><PaginationPrevious onClick={() => setCurrentPage( prev => Math.max( prev - 1, 1 ) )} disabled={currentPage === 1} /></PaginationItem>
-          <PaginationItem><span>Page {currentPage} of {totalPages}</span></PaginationItem>
-          <PaginationItem><PaginationNext onClick={() => setCurrentPage( prev => Math.min( prev + 1, totalPages ) )} disabled={currentPage === totalPages} /></PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    </>
-  );
-}

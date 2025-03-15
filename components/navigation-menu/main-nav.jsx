@@ -16,7 +16,6 @@ import
 export function MainNav ( { className, ...props } )
 {
   const pathname = usePathname();
-  const [activeLabel, setActiveLabel] = useState( "Convert and Compare Excel" );
 
   /**
    * Navigation routes for the application excelComparison
