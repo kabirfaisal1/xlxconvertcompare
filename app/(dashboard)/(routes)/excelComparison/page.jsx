@@ -127,7 +127,7 @@ export default function ExcelComparison ()
       </Button>
 
       <Separator className="my-4" />
-
+//       <div className="flex items-center justify-between">  </div>
       {matchingData.length > 0 && headers.length > 0 &&
 
         <TableSection title="Matching Data" data={matchingData} headers={headers} />}
