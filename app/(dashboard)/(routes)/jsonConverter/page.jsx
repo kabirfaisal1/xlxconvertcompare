@@ -22,8 +22,12 @@ export default function JsonToExcel ()
   const itemsPerPage = 15;
 
   const title = "Json File Uploader & Converter";
-  const description = `Easily upload a JSON file and convert data from its first sheet into structured code formats.
-                      This helps streamline data integration and makes it easier to use in different applications.`;
+  const description = (
+    <>
+      This tool allows you to convert JSON data into an Excel file. Simply <span style={{ fontWeight: "bold", color: "#8D0B41" }}>TYPE or PASTE</span> your JSON data into the editor,<br />
+      click <span style={{ fontWeight: "bold", color: "#8D0B41" }}>'Convert to Table'</span> to view it in a table format, and then download it as an Excel file.
+    </>
+  );
 
   const handleJsonInput = ( value ) =>
   {
