@@ -9,6 +9,7 @@ import * as XLSX from "xlsx";
 import { Separator } from "@/components/ui/separator";
 import { Form } from "@/components/ui/form";
 import Heading from "@/components/ui/heading";
+import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext } from "@/components/ui/pagination";
 
 export default function JsonToExcel ()
 {
@@ -16,6 +17,8 @@ export default function JsonToExcel ()
   const [columns, setColumns] = useState( [] );
   const [code, setCode] = useState( "" );
   const [tableLoaded, setTableLoaded] = useState( false );
+  const [currentPage, setCurrentPage] = useState( 1 );
+  const itemsPerPage = 5;
 
   const title = "Json File Uploader & Converter";
   const description = `Easily upload a JSON file and convert data from its first sheet into structured code formats.
@@ -36,6 +39,7 @@ export default function JsonToExcel ()
         setJsonData( parsedData );
         setColumns( Object.keys( parsedData[0] ) );
         setTableLoaded( true );
+        setCurrentPage( 1 );
       } else
       {
         alert( "Invalid JSON format. Must be an array of objects." );
@@ -64,6 +68,11 @@ export default function JsonToExcel ()
     XLSX.writeFile( workbook, filename );
   };
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = jsonData.slice( indexOfFirstItem, indexOfLastItem );
+  const totalPages = Math.ceil( jsonData.length / itemsPerPage );
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex items-center justify-between">
@@ -78,7 +87,6 @@ export default function JsonToExcel ()
               height="200px"
               language="json"
               theme="vs-dark"
-
               onChange={handleJsonInput}
               value={code}
               options={{
@@ -112,7 +120,7 @@ export default function JsonToExcel ()
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {jsonData.map( ( row, rowIndex ) => (
+                  {currentItems.map( ( row, rowIndex ) => (
                     <TableRow key={rowIndex}>
                       {columns.map( ( col, colIndex ) => (
                         <TableCell key={colIndex}>{row[col]}</TableCell>
@@ -121,6 +129,19 @@ export default function JsonToExcel ()
                   ) )}
                 </TableBody>
               </Table>
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious onClick={() => setCurrentPage( ( prev ) => Math.max( prev - 1, 1 ) )} disabled={currentPage === 1} />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <span className="px-4">Page {currentPage} of {totalPages}</span>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationNext onClick={() => setCurrentPage( ( prev ) => Math.min( prev + 1, totalPages ) )} disabled={currentPage === totalPages} />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
             </CardContent>
           </Card>
         </div>
