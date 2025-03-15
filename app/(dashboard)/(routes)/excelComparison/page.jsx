@@ -6,7 +6,7 @@ import { Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Heading from "@/components/ui/heading";
-import { TableSection } from "@/components/ui/customTable";
+import { TableSection } from "@/components/ui/resizableTableSections";
 
 export default function ExcelComparison ()
 {
