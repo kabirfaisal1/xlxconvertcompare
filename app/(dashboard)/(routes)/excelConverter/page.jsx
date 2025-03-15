@@ -1,12 +1,14 @@
 "use client";
-
+// Importing Global necessary components and libraries
 import { useState, useEffect, useRef, useCallback } from "react";
 import * as XLSX from "xlsx";
 import { useForm } from "react-hook-form";
+import { Upload, Copy } from 'lucide-react';
+
+// Importing local necessary components and libraries
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ToastContainer, toast } from "react-toastify";
-import { Upload, Copy } from 'lucide-react';
 import Heading from "@/components/ui/heading";
 
 import
@@ -18,11 +20,22 @@ import
   FormMessage,
 } from "@/components/ui/form";
 
+import
+{
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+
 export default function ExcelConverter ()
 {
+
   // Initialize state with default values for the application
   const [state, setState] = useState( {
-    format: "js", // Default output format is JavaScript
+    format: "", // Initially empty, so user must select a format
     variableName: "", // Input field starts empty
     selectedFile: null, // No file selected initially
     headers: [], // Headers extracted from the Excel file
@@ -287,7 +300,7 @@ export default function ExcelConverter ()
                 <Button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  disabled={!state.variableName.trim() || !!state.variableError}
+                  disabled={!state.variableName.trim() || !!state.variableError || !state.format}
                   data-testid="upload-button"
                 >
                   <Upload /> {state.selectedFile ? `Selected: ${ state.selectedFile }` : "Choose File"}
@@ -307,20 +320,23 @@ export default function ExcelConverter ()
         {/* Format Selection */}
         <div style={{ marginTop: "20px" }}>
           <label>Select Output Format: </label>
-          <select
+          <Select
             data-testid="format-select"
             className="border p-2"
             name="format"
-            value={state.format}
-            onChange={( e ) => setState( ( prev ) => ( { ...prev, format: e.target.value } ) )}
-            style={{ marginLeft: "10px", padding: "5px" }}
+            onValueChange={( value ) => setState( ( prev ) => ( { ...prev, format: value } ) )}
           >
-            <option value="json">JSON</option>
-            <option value="js">JavaScript</option>
-            <option value="typescript">TypeScript</option>
-            <option value="csharp">C#</option>
-            <option value="python">Python</option>
-          </select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select Format type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="json">JSON</SelectItem>
+              <SelectItem value="js">JavaScript</SelectItem>
+              <SelectItem value="typescript">TypeScript</SelectItem>
+              <SelectItem value="csharp">C#</SelectItem>
+              <SelectItem value="python">Python</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
