@@ -83,15 +83,23 @@ export default function ExcelComparison ()
   {
     if ( !fileOneData.length || !fileTwoData.length ) return;
 
+    // Reset match percentage to 0 before calculation
+    setMatchPercentage( 0 );
+
     const fileTwoSet = new Set( fileTwoData.map( JSON.stringify ) );
     const fileOneSet = new Set( fileOneData.map( JSON.stringify ) );
 
-    setMatchingData( fileOneData.filter( ( item ) => fileTwoSet.has( JSON.stringify( item ) ) ) );
-    setUnmatchedDataOne( fileOneData.filter( ( item ) => !fileTwoSet.has( JSON.stringify( item ) ) ) );
-    setUnmatchedDataTwo( fileTwoData.filter( ( item ) => !fileOneSet.has( JSON.stringify( item ) ) ) );
+    const matched = fileOneData.filter( ( item ) => fileTwoSet.has( JSON.stringify( item ) ) );
+    const unmatchedOne = fileOneData.filter( ( item ) => !fileTwoSet.has( JSON.stringify( item ) ) );
+    const unmatchedTwo = fileTwoData.filter( ( item ) => !fileOneSet.has( JSON.stringify( item ) ) );
+
+    setMatchingData( matched );
+    setUnmatchedDataOne( unmatchedOne );
+    setUnmatchedDataTwo( unmatchedTwo );
 
     const totalEntries = fileOneData.length;
-    const percentage = totalEntries > 0 ? ( matchingData.length / totalEntries ) * 100 : 0;
+    const percentage = totalEntries > 0 ? ( matched.length / totalEntries ) * 100 : 0;
+
     setMatchPercentage( percentage.toFixed( 2 ) );
   };
 
@@ -127,12 +135,22 @@ export default function ExcelComparison ()
       </Button>
 
       <Separator className="my-4" />
-//       <div className="flex items-center justify-between">  </div>
+      {/* //       <div className="flex items-center justify-between">  </div>
       {matchingData.length > 0 && headers.length > 0 &&
 
         <TableSection title="Matching Data" data={matchingData} headers={headers} />}
-      {( unmatchedDataOne.length > 0 || unmatchedDataTwo.length > 0 ) && headers.length > 0 && <TableSection title="Unmatched Data" dataOne={unmatchedDataOne} dataTwo={unmatchedDataTwo} headers={headers} />}
+      {( unmatchedDataOne.length > 0 || unmatchedDataTwo.length > 0 ) && headers.length > 0 && <TableSection title="Unmatched Data" dataOne={unmatchedDataOne} dataTwo={unmatchedDataTwo} headers={headers} />} */}
+      <div className="mt-4 text-lg font-bold" style={{ color: getMatchColor( matchPercentage ) }}>
+        Data Match: {matchPercentage}%
+      </div>
+      {matchingData.length > 0 && headers.length > 0 && (
+        <>
 
+          <TableSection title="Matching Data" data={matchingData} headers={headers} />
+          {( unmatchedDataOne.length > 0 || unmatchedDataTwo.length > 0 ) && headers.length > 0 && <TableSection title="Unmatched Data" dataOne={unmatchedDataOne} dataTwo={unmatchedDataTwo} headers={headers} />}
+
+        </>
+      )}
     </div>
   );
 }
