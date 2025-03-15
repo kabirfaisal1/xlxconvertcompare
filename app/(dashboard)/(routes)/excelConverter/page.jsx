@@ -32,9 +32,9 @@ export default function ExcelConverter ()
 
   const fileInputRef = useRef( null );
 
-  const title = "Upload XLX/XLSX File";
-  const description = "Convert Excel data into structured code formats.";
-
+  const title = "Excel File Uploader & Converter";
+  const description = `Easily upload an Excel file and convert data from its first sheet into structured code formats. 
+                      This helps streamline data integration and makes it easier to use in different applications.`;
   const form = useForm( { defaultValues: { label: "" } } );
 
   // Validate variable name
@@ -255,13 +255,28 @@ export default function ExcelConverter ()
 
       {/* Code Output & Floating Copy Button */}
       {state.codeSnippet && (
-        <div className="relative">
-          <pre className="bg-gray-100 p-4 mt-4 rounded-lg overflow-x-auto">{state.codeSnippet}</pre>
-          <Button data-testid='code_copyButton' onClick={copyToClipboard} className="absolute top-2 right-2">
-            <Copy />
-          </Button>
-        </div>
+        <>
+          {/* Number of Data */}
+          <div data-testid="totalEntries_count" className="mt-6 p-4 rounded-lg text-center font-semibold" style={{ backgroundColor: "#E7E8D8" }}>
+            Total Entries: {state.data.length}
+          </div>
+
+          {/* Code Output & Copy Button */}
+          <div className="relative mt-4">
+            <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto">{state.codeSnippet}</pre>
+            <Button
+              data-testid="code_copyButton"
+              onClick={copyToClipboard}
+              className="absolute top-2 right-2 flex items-center gap-2 rounded-full"
+
+            >
+              <Copy />
+              Copy
+            </Button>
+          </div>
+        </>
       )}
-    </div>
+
+    </div >
   );
 }
