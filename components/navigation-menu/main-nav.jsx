@@ -43,6 +43,7 @@ export function MainNav ( { className, ...props } )
   return (
     <NavigationMenu
       className={cn( "flex items-center space-x-2", className )}
+
       data-testid="main-NavigationMenu"
       {...props}
     >
@@ -53,7 +54,7 @@ export function MainNav ( { className, ...props } )
             href={route.href}
             data-testid={route.id} // ✅ Ensure consistency in test IDs
             className={cn(
-              "relative px-4 py-2 text-sm font-medium transition-colors rounded-t-lg border-b-2 border-transparent bg-gray-100 dark:bg-gray-800",
+              "relative px-4 py-2 text-sm font-medium transition-colors rounded-t-lg border-b-2 border-transparent",
               pathname === route.href
                 ? "bg-white dark:bg-gray-900 border-b-white dark:border-b-gray-900 text-black dark:text-white shadow-[0px_4px_10px_#8B5DFF]"
                 : "text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
