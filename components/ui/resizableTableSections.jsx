@@ -1,13 +1,13 @@
 import { useState } from "react"; // <-- Add this line
 import
-    {
-        Table,
-        TableHead,
-        TableRow,
-        TableHeader,
-        TableBody,
-        TableCell,
-    } from "@/components/ui/table";
+{
+    Table,
+    TableHead,
+    TableRow,
+    TableHeader,
+    TableBody,
+    TableCell,
+} from "@/components/ui/table";
 import { ResizablePanel, ResizablePanelGroup, ResizableHandle } from "@/components/ui/resizable";
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext } from "@/components/ui/pagination";
 
@@ -19,11 +19,11 @@ export function TableSection ( { title, data, dataOne, dataTwo, headers } )
             {data ? (
                 <PaginatedTable data={data} headers={headers} />
             ) : (
-                <ResizablePanelGroup direction="horizontal">
+                <ResizablePanelGroup data-testid="horizontal_ResizablePanelGroup" direction="horizontal">
                     <ResizablePanel className="font-bold shadow-md shadow-[#CCD3CA]">
                         <PaginatedTable data={dataOne} headers={headers} />
                     </ResizablePanel>
-                    <ResizableHandle withHandle />
+                    <ResizableHandle withHandle data-testid="resizableHandle" />
                     <ResizablePanel className="font-bold shadow-md shadow-[#CCD3CA]">
                         <PaginatedTable data={dataTwo} headers={headers} />
                     </ResizablePanel>
@@ -43,10 +43,10 @@ function PaginatedTable ( { data, headers } )
     return (
         <>
             <Table>
-                <TableHeader>
+                <TableHeader data-testid="tableHeader">
                     <TableRow>{headers.map( ( header, index ) => <TableHead key={index}>{header}</TableHead> )}</TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody data-testid="tableBody">
                     {paginatedData.map( ( row, index ) => (
                         <TableRow key={index}>{headers.map( ( key, i ) => <TableCell key={i}>{row[key] || "N/A"}</TableCell> )}</TableRow>
                     ) )}
@@ -54,9 +54,17 @@ function PaginatedTable ( { data, headers } )
             </Table>
             <Pagination className="mt-4">
                 <PaginationContent>
-                    <PaginationItem><PaginationPrevious onClick={() => setCurrentPage( prev => Math.max( prev - 1, 1 ) )} disabled={currentPage === 1} /></PaginationItem>
-                    <PaginationItem><span>Page {currentPage} of {totalPages}</span></PaginationItem>
-                    <PaginationItem><PaginationNext onClick={() => setCurrentPage( prev => Math.min( prev + 1, totalPages ) )} disabled={currentPage === totalPages} /></PaginationItem>
+                    <PaginationItem>
+                        <PaginationPrevious
+                            data-testid="previousPage_Button"
+                            onClick={() => setCurrentPage( prev => Math.max( prev - 1, 1 ) )}
+                            disabled={currentPage === 1} /></PaginationItem>
+                    <PaginationItem data-testid="currentPage"><span>Page {currentPage} of {totalPages}</span></PaginationItem>
+                    <PaginationItem>
+                        <PaginationNext
+                            data-testid="nextPage_Button"
+                            onClick={() => setCurrentPage( prev => Math.min( prev + 1, totalPages ) )}
+                            disabled={currentPage === totalPages} /></PaginationItem>
                 </PaginationContent>
             </Pagination>
         </>

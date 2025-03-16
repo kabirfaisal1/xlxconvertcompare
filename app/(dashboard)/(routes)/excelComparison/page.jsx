@@ -102,7 +102,8 @@ export default function ExcelComparison ()
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <Heading title="Compare Excel Files" description="Upload two Excel files to compare their data." />
+      <Heading title="Compare Excel Files"
+        description="Upload two Excel files to compare their data and identify matching and unmatched entries." />
       <Separator className="my-4" />
 
       <div className="grid grid-cols-2 gap-4">
@@ -135,7 +136,8 @@ export default function ExcelComparison ()
       {matchingData.length > 0 && headers.length > 0 && (
         <>
           <Separator className="my-4" />
-          <div className="mt-4 text-lg font-bold" style={{ color: getMatchColor( matchPercentage ) }}>
+          <div data-testid="matchPercentage_Text"
+            className="mt-4 text-lg font-bold" style={{ color: getMatchColor( matchPercentage ) }}>
             Data Match: {matchPercentage}%
           </div>
           <TableSection title="Matching Data" data={matchingData} headers={headers} />
