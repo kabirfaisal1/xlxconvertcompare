@@ -106,7 +106,7 @@ export default function ExcelComparison ()
         description="Upload two Excel files to compare their data and identify matching and unmatched entries." />
       <Separator className="my-4" />
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4" style={{ backgroundColor: "#EFF3EA", padding: "20px", borderRadius: "8px" }}>
         <div>
           <Button
             data-testid="uploadFileOne_Button"
@@ -123,15 +123,16 @@ export default function ExcelComparison ()
           </Button>
           <input ref={fileInputRefTwo} type="file" accept=".xls,.xlsx" onChange={( e ) => handleFileUpload( e, setFileTwoData, setFileTwoName )} hidden />
         </div>
+        <Button
+          data-testid="compareFiles_Button"
+          variant="default"
+          className="mt-4" onClick={compareFiles}
+          disabled={!fileOneData.length || !fileTwoData.length}>
+          Compare Files
+        </Button>
       </div>
 
-      <Button
-        data-testid="compareFiles_Button"
-        variant="default"
-        className="mt-4" onClick={compareFiles}
-        disabled={!fileOneData.length || !fileTwoData.length}>
-        Compare Files
-      </Button>
+
 
       {matchingData.length > 0 && headers.length > 0 && (
         <>
