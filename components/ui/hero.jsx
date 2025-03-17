@@ -1,51 +1,55 @@
-// import logo from '../assets/logo.svg';
-import { FaGithub } from 'react-icons/fa';
-const Hero = () =>
+import Image from "next/image";
+
+export default function Hero ()
 {
 	return (
-		<header
-			data-testid='app_header'
-			className='w-full flex justify-center items-center flex-col'
-		>
-			<nav
-				data-testid='app_nav'
-				className='w-full flex justify-between items-center p-10 top-0 z-10'
-			>
-				{/* <img
-					src={logo}
-					alt='ai_logo'
-					data-testid='site_logo'
-					id='site_logo'
-					className='w-28 object-contain'
-				/> */}
-				<button
-					type='button'
-					data-testid='gitHub_button'
-					id='gitHub_button'
-					className='black_btn'
-					onClick={() =>
-						window.open( 'https://github.com/kabirfaisal1/myReactProtfolio.git' )
-					}
-				>
-					<FaGithub />
-				</button>
-			</nav>
-			<h1 data-testid='main_site_header' id='site_title' className='head_text'>
-				Summarize Articles with <br className='max-md:hidden' />
-				<span className='orange_gradient'>Machine Learning</span>
-			</h1>
-			<h2 data-testid='main_header_subtitle' className='desc'>
-				{' '}
-				Summarize your articles with AI in seconds!
-			</h2>
-			<p className='mb-3 text-gray-500 dark:text-gray-400'>
-				This is an open-source article summarizer web application
-				<br className='max-md:hidden' />
-				that uses machine learning to transforms lengthy articles into
-				<br className='max-md:hidden' />
-				clear and concise summaries.
-			</p>
-		</header>
+
+		<section className="flex flex-col items-center text-center gap-6 p-10 sm:p-16 lg:p-24 bg-gradient-to-b ">
+			{/* Hero Content */}
+			<div className="max-w-2xl">
+				<Image
+					className="dark:invert rounded-lg mx-auto"
+					src="/excel.svg"
+					alt="Excel Mate Logo"
+					width={335}
+					height={210}
+					priority
+				/>
+				<h3 className="text-4xl sm:text-4xl">
+					A Friendly Tool for Excel Data Conversion and Comparison
+				</h3>
+				<h4 className="mt-5 text-base sm:text-xl text-gray-500 italic">
+					Simplify your workflow by converting Excel files into various formats and comparing Excel data with ease.
+				</h4>
+			</div>
+
+			<div className="flex items-center">
+				<ol className="flex flex-col gap-3 text-lg text-gray-700 list-none">
+					<li className="flex items-center gap-2 before:content-['*'] before:text-xl before:text-gray-600">
+						<a href="/excelConverter" className="hover:text-[#3A7D44]">
+							Convert Excel to:
+							<code className="bg-gray-200 px-2 py-1 rounded font-semibold ml-1">
+								{"{ Javascript, Typescript, JSON, Python, C# }"}
+							</code>
+						</a>
+					</li>
+					<li className="flex items-center gap-2 before:content-['*'] before:text-xl before:text-gray-600">
+						<a href="/excelComparison" className="hover:text-[#3A7D44]">
+							Compare Excel to Excel
+						</a>
+					</li>
+					<li className="flex items-center gap-2 before:content-['*'] before:text-xl before:text-gray-600">
+						<a href="/jsonConverter" className="hover:text-[#3A7D44]">
+							Convert
+							<code className="bg-gray-200 px-2 py-1 rounded font-semibold ml-1">
+								{"{ JSON }"}
+							</code>
+							to Excel
+						</a>
+					</li>
+				</ol>
+			</div>
+		</section>
+
 	);
-};
-export default Hero;
+}

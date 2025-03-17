@@ -1,54 +1,63 @@
-import Image from "next/image";
+import Hero from '@/components/ui/hero';
 import { Linkedin, Github } from 'lucide-react';
+import Image from "next/image";
+
 
 export default function Home ()
 {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert rounded-lg"
-          src="/excel.svg"
-          alt="excel mate logo"
-          width={335}  // Bank card width
-          height={210} // Bank card height
-          priority
-        />
+    <div className="bg-gradient-to-b relative to-[#8cb89a] flex flex-col items-center justify-center min-h-screen">
 
-        <h1 className="text-lg sm:text-xl font-medium tracking-[-.01em] text-center sm:text-left text-gray-600">
-          A friendly tool for Excel data conversion and comparison.
-        </h1>
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            <a href="/excelConverter">
+      {/* Hero Content */}
+      <Hero />
 
-              Convert Excel to :
-              <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-                {"{ Javascript, Typescript, JSON, Python or C#}"}
-              </code>
-              .
-            </a>
+      {/* About Section */}
+      <section className="justify-center max-w-5xl flex-1 gap-8">
 
-          </li>
-          <li className="tracking-[-.01em]">
-            <a href="/excelComparison">
-              Compare Excel to Excel
-            </a>
-          </li>
-          <li className="tracking-[-.01em]">
-            <a href="/jsonConverter">
-              Convert
-              <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-                {"{ JSON }"}
-              </code>
-              to : Excel
-            </a>
+        <div className="flex-1">
+          {/* About This Tool */}
+          <div className="flex items-center gap-4">
+            <Image
+              src="/aboutTool.png"
+              alt="About This Tool Icon"
+              width={100}
+              height={50}
+            />
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
+              Effortless Excel Conversion & Comparison
+            </h2>
+          </div>
 
-          </li>
-        </ol>
+          <p className="text-gray-600 mt-2 text-lg">
+            Designed for QA professionals, analysts, and data enthusiasts, this tool simplifies Excel-to-code conversions and Excel sheet comparisons—eliminating tedious manual work.
+            Whether you're developing applications, automating workflows, or handling massive datasets, streamline your process and focus on what truly matters.
+          </p>
 
+          {/* The Challenge */}
+          <div className="flex items-center gap-4 mt-8">
+            <Image
+              src="/problemToSolve.png"
+              alt="Problem Solve Icon"
+              width={100}
+              height={200}
+            />
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
+              The Problem We Solve
+            </h2>
+          </div>
 
-      </main>
+          <p className="text-gray-600 mt-2 text-lg">
+            QA professionals and developers often need to compare Excel files and transform data into code-friendly formats—especially for automation.
+            Without native file imports in tools like Bruno API, this meant manually processing thousands of data points, wasting valuable time.
+          </p>
+
+          <p className="text-gray-600 mt-2 text-lg">
+            My tool automates this process, instantly converting and comparing Excel files so you can focus on testing—not tedious data prep.
+          </p>
+        </div>
+
+      </section>
+
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
@@ -56,26 +65,10 @@ export default function Home ()
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Linkedin
-            aria-hidden
-            width={16}
-            height={16}
-          />
+          <Linkedin aria-hidden width={16} height={16} />
           Linkedin
         </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://github.com/kabirfaisal1/xlxconvertcompare.git"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Github
-            aria-hidden
-            width={16}
-            height={16}
-          />
-          Github
-        </a>
+
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
           href="https://kabirfaisal1.github.io/myReactProtfolio/#/"
@@ -92,6 +85,6 @@ export default function Home ()
           Go to Portfolio →
         </a>
       </footer>
-    </div >
+    </div>
   );
 }
