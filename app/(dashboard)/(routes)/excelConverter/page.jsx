@@ -294,7 +294,6 @@ export default function ExcelConverter ()
                 {state.variableError && <FormMessage data-testid='FormMessage' className="text-red-500">{state.variableError}</FormMessage>}
               </FormItem>
 
-              {/* File Upload */}
               <FormItem data-testid="file-upload">
                 <FormLabel>Upload File</FormLabel>
                 <Button
@@ -302,8 +301,12 @@ export default function ExcelConverter ()
                   onClick={() => fileInputRef.current?.click()}
                   disabled={!state.variableName.trim() || !!state.variableError || !state.format}
                   data-testid="upload-button"
+                  className="flex items-center justify-center w-[180px] px-3 py-2 relative"
                 >
-                  <Upload /> {state.selectedFile ? `Selected: ${ state.selectedFile }` : "Choose File"}
+                  <Upload className="mr-2 flex-shrink-0" />
+                  <span className="truncate max-w-[120px] overflow-hidden text-ellipsis">
+                    {state.selectedFile ? state.selectedFile : "Choose File"}
+                  </span>
                 </Button>
                 <input
                   ref={fileInputRef}
