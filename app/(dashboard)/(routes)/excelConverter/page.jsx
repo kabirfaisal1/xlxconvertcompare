@@ -273,7 +273,7 @@ export default function ExcelConverter ()
 
       <Separator />
       {/* Adding space here */}
-      <div className="mt-6" style={{ backgroundColor: "#EFF3EA", padding: "20px", borderRadius: "8px" }}>
+      <div className="mt-6 rid grid-cols-2 gap-4 bg-gray-100 p-4 rounded" >
         <Form {...form}>
           <form>
             <div className="grid grid-cols-2 gap-8">
@@ -293,6 +293,27 @@ export default function ExcelConverter ()
                 </FormControl>
                 {state.variableError && <FormMessage data-testid='FormMessage' className="text-red-500">{state.variableError}</FormMessage>}
               </FormItem>
+              {/* Format Selection */}
+              <div style={{ marginTop: "20px" }}>
+                <label>Select Output Format: </label>
+                <Select
+                  data-testid="format-select"
+                  className="border p-2"
+                  name="format"
+                  onValueChange={( value ) => setState( ( prev ) => ( { ...prev, format: value } ) )}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select Format type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="json">JSON</SelectItem>
+                    <SelectItem value="js">JavaScript</SelectItem>
+                    <SelectItem value="typescript">TypeScript</SelectItem>
+                    <SelectItem value="csharp">C#</SelectItem>
+                    <SelectItem value="python">Python</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
 
               <FormItem data-testid="file-upload">
                 <FormLabel>Upload File</FormLabel>
@@ -319,28 +340,6 @@ export default function ExcelConverter ()
             </div>
           </form>
         </Form>
-
-        {/* Format Selection */}
-        <div style={{ marginTop: "20px" }}>
-          <label>Select Output Format: </label>
-          <Select
-            data-testid="format-select"
-            className="border p-2"
-            name="format"
-            onValueChange={( value ) => setState( ( prev ) => ( { ...prev, format: value } ) )}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select Format type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="json">JSON</SelectItem>
-              <SelectItem value="js">JavaScript</SelectItem>
-              <SelectItem value="typescript">TypeScript</SelectItem>
-              <SelectItem value="csharp">C#</SelectItem>
-              <SelectItem value="python">Python</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
       </div>
 
       {/* Code Output & Floating Copy Button */}

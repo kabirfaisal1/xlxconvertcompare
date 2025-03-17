@@ -87,7 +87,7 @@ export default function JsonToExcel ()
         <Heading title={title} description={description} />
       </div>
       <Separator />
-      <div className="mt-6" style={{ backgroundColor: "#EFF3EA", padding: "20px", borderRadius: "8px" }}>
+      <div className="mt-6 rid grid-cols-2 gap-4 bg-gray-100 p-4 rounded">
         <Form data-testid="jsonForm" className="flex flex-col items-center justify-center">
           <form>
             <Button data-testid="convertTable_Button" className="mb-4" type="button" onClick={submitForm}>Convert to Table</Button>
