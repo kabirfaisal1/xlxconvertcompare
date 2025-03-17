@@ -1,4 +1,4 @@
-import { useState } from "react"; // <-- Ensure this import is present
+import { useState } from "react";
 import
 {
     Table,
@@ -10,7 +10,7 @@ import
 } from "@/components/ui/table";
 import { ResizablePanel, ResizablePanelGroup, ResizableHandle } from "@/components/ui/resizable";
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationNext } from "@/components/ui/pagination";
-import { Input } from "@/components/ui/input"; // Import Input component for page navigation
+import { Input } from "@/components/ui/input";
 
 export function TableSection ( { title, data, dataOne, dataTwo, headers } )
 {
@@ -56,24 +56,34 @@ function PaginatedTable ( { data, headers } )
 
     return (
         <>
-            <Table>
-                <TableHeader data-testid="tableHeader">
-                    <TableRow>
-                        {headers.map( ( header, index ) => (
-                            <TableHead key={index}>{header}</TableHead>
-                        ) )}
-                    </TableRow>
-                </TableHeader>
-                <TableBody data-testid="tableBody">
-                    {paginatedData.map( ( row, index ) => (
-                        <TableRow key={index}>
-                            {headers.map( ( key, i ) => (
-                                <TableCell key={i}>{row[key] || "N/A"}</TableCell>
+            <div className="relative border rounded-md shadow-sm">
+                {/* Scrollable Table Container */}
+                <div className="max-h-[500px] overflow-auto">
+                    <Table className="w-full border-collapse">
+                        {/* Sticky Header inside Scrollable Container */}
+                        <thead className="sticky top-0 bg-white z-10 shadow-md">
+                            <TableRow>
+                                {headers.map( ( header, index ) => (
+                                    <TableHead key={index} className="p-3 border-b bg-white">
+                                        {header}
+                                    </TableHead>
+                                ) )}
+                            </TableRow>
+                        </thead>
+                        {/* Scrollable Table Body */}
+                        <TableBody data-testid="tableBody">
+                            {paginatedData.map( ( row, index ) => (
+                                <TableRow key={index}>
+                                    {headers.map( ( key, i ) => (
+                                        <TableCell key={i}>{row[key] || "N/A"}</TableCell>
+                                    ) )}
+                                </TableRow>
                             ) )}
-                        </TableRow>
-                    ) )}
-                </TableBody>
-            </Table>
+                        </TableBody>
+                    </Table>
+                </div>
+            </div>
+            {/* Pagination Controls */}
             <Pagination className="mt-4 flex items-center gap-2">
                 <PaginationContent className="flex items-center gap-2">
                     <PaginationItem>
