@@ -39,7 +39,6 @@ export default function JsonToExcel ()
     {
       let parsedData = JSON.parse( code );
 
-      // If parsed data is an object, convert it into an array
       if ( !Array.isArray( parsedData ) )
       {
         parsedData = [parsedData];
