@@ -1,5 +1,5 @@
 import Hero from '@/components/ui/hero';
-import { Linkedin, Github } from 'lucide-react';
+
 import Image from "next/image";
 
 
@@ -58,33 +58,7 @@ export default function Home ()
 
       </section>
 
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://www.linkedin.com/in/kabirfaisal89/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Linkedin aria-hidden width={16} height={16} />
-          Linkedin
-        </a>
 
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://kabirfaisal1.github.io/myReactProtfolio/#/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to Portfolio →
-        </a>
-      </footer>
     </div>
   );
 }
