@@ -72,13 +72,12 @@ export default function JsonToExcel ()
 
       if ( Array.isArray( obj[key] ) )
       {
-        // Convert array elements into readable strings
+
         res[newKey] = obj[key]
           .map( ( item ) => ( typeof item === "object" ? objectToString( item ) : item ) )
           .join( ", " );
       } else if ( typeof obj[key] === "object" && obj[key] !== null )
       {
-        // Convert object into a readable string
         res[newKey] = objectToString( obj[key] );
       } else
       {
@@ -88,7 +87,6 @@ export default function JsonToExcel ()
     return res;
   };
 
-  // Function to convert objects to a string representation
   const objectToString = ( obj ) =>
   {
     return Object.values( obj ).join( " " );
