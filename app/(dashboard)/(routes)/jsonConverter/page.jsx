@@ -39,16 +39,21 @@ export default function JsonToExcel ()
     {
       let parsedData = JSON.parse( code );
 
-      // If the input is a single object, convert it into an array
+      // If parsed data is an object, convert it into an array
       if ( !Array.isArray( parsedData ) )
       {
         parsedData = [parsedData];
       }
 
-      // Process each object dynamically
+      if ( parsedData.length === 0 )
+      {
+        toast.error( "Invalid JSON format. Must be an array of objects." );
+        setTableLoaded( false );
+        return;
+      }
+
       const formattedData = parsedData.map( ( item ) => flattenObject( item ) );
 
-      // Extract all unique keys dynamically
       const allColumns = [...new Set( formattedData.flatMap( Object.keys ) )];
 
       setJsonData( formattedData );
@@ -62,23 +67,28 @@ export default function JsonToExcel ()
     }
   };
 
-  const flattenObject = ( obj, parentKey = "", res = {} ) =>
+  const flattenObject = ( obj, parentKey = '', res = {} ) =>
   {
     for ( let key in obj )
     {
       if ( !obj.hasOwnProperty( key ) ) continue;
 
-      let newKey = parentKey ? `${ parentKey } ${ key }` : key; // Maintain nested key names
+      let newKey = parentKey ? `${ parentKey } ${ key }` : key;
 
       if ( Array.isArray( obj[key] ) )
       {
-
         res[newKey] = obj[key]
-          .map( ( item ) => ( typeof item === "object" ? objectToString( item ) : item ) )
-          .join( ", " );
-      } else if ( typeof obj[key] === "object" && obj[key] !== null )
+          .map( ( item ) => ( typeof item === 'object' ? objectToString( item ) : item ) )
+          .join( ', ' );
+      } else if ( typeof obj[key] === 'object' && obj[key] !== null )
       {
         res[newKey] = objectToString( obj[key] );
+      } else if ( typeof obj[key] === 'boolean' )
+      {
+        res[newKey] = obj[key].toString();
+      } else if ( obj[key] === null || obj[key] === undefined || obj[key] === '' )
+      {
+        res[newKey] = '';
       } else
       {
         res[newKey] = obj[key];
@@ -89,18 +99,20 @@ export default function JsonToExcel ()
 
   const objectToString = ( obj ) =>
   {
-    return Object.values( obj ).join( " " );
+    return Object.values( obj )
+      .filter( ( value ) => value !== null && value !== undefined && value !== '' )
+      .join( ' ' );
   };
 
   const downloadExcel = () =>
   {
     const worksheet = XLSX.utils.json_to_sheet( jsonData );
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet( workbook, worksheet, "Sheet1" );
+    XLSX.utils.book_append_sheet( workbook, worksheet, 'Sheet1' );
 
     const now = new Date();
-    const month = String( now.getMonth() + 1 ).padStart( 2, "0" );
-    const day = String( now.getDate() ).padStart( 2, "0" );
+    const month = String( now.getMonth() + 1 ).padStart( 2, '0' );
+    const day = String( now.getDate() ).padStart( 2, '0' );
     const year = now.getFullYear();
     const timestamp = now.getTime();
     const filename = `convertedData_${ month }${ day }${ year }_${ timestamp }.xlsx`;
