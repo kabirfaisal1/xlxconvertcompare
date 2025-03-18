@@ -28,10 +28,5 @@ self.onmessage = function ( e )
             unmatchedTwo.push( row );
         }
     }
-
-    console.log( "Matched Data Count:", matched.length );
-    console.log( "Unmatched Data File 1 Count:", unmatchedOne.length );
-    console.log( "Unmatched Data File 2 Count:", unmatchedTwo.length );
-
     self.postMessage( { matched, unmatchedOne, unmatchedTwo } );
 };
