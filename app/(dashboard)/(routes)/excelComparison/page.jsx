@@ -96,7 +96,21 @@ export default function ExcelComparison ()
               const rowData = {};
               extractedHeaders.forEach( ( key, i ) =>
               {
-                rowData[key] = row[i] !== undefined ? row[i] : "N/A";
+                let value = row[i];
+
+                // Check for empty or "N/A" values and replace with an empty string
+                if ( value === undefined || value === "N/A" || value === null || value === "" )
+                {
+                  value = "";
+                }
+
+                // Ensure boolean values are explicitly converted to "true" or "false"
+                if ( typeof value === "boolean" )
+                {
+                  value = value ? "true" : "false";
+                }
+
+                rowData[key] = value;
               } );
               return rowData;
             } );
