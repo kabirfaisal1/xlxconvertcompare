@@ -37,25 +37,61 @@ export default function JsonToExcel ()
   {
     try
     {
-      const parsedData = JSON.parse( code );
-      if ( Array.isArray( parsedData ) && parsedData.length > 0 )
+      let parsedData = JSON.parse( code );
+
+      // If the input is a single object, convert it into an array
+      if ( !Array.isArray( parsedData ) )
       {
-        setJsonData( parsedData );
-        setColumns( Object.keys( parsedData[0] ) );
-        setTableLoaded( true );
-        setCurrentPage( 1 );
-      } else
-      {
-        toast.error( "Invalid JSON format. Must be an array of objects." );
-        // alert( "Invalid JSON format. Must be an array of objects." );
-        setTableLoaded( false );
+        parsedData = [parsedData];
       }
+
+      // Process each object dynamically
+      const formattedData = parsedData.map( ( item ) => flattenObject( item ) );
+
+      // Extract all unique keys dynamically
+      const allColumns = [...new Set( formattedData.flatMap( Object.keys ) )];
+
+      setJsonData( formattedData );
+      setColumns( allColumns );
+      setTableLoaded( true );
+      setCurrentPage( 1 );
     } catch ( error )
     {
       toast.error( "Invalid JSON input" );
-
       setTableLoaded( false );
     }
+  };
+
+  const flattenObject = ( obj, parentKey = "", res = {} ) =>
+  {
+    for ( let key in obj )
+    {
+      if ( !obj.hasOwnProperty( key ) ) continue;
+
+      let newKey = parentKey ? `${ parentKey } ${ key }` : key; // Maintain nested key names
+
+      if ( Array.isArray( obj[key] ) )
+      {
+        // Convert array elements into readable strings
+        res[newKey] = obj[key]
+          .map( ( item ) => ( typeof item === "object" ? objectToString( item ) : item ) )
+          .join( ", " );
+      } else if ( typeof obj[key] === "object" && obj[key] !== null )
+      {
+        // Convert object into a readable string
+        res[newKey] = objectToString( obj[key] );
+      } else
+      {
+        res[newKey] = obj[key];
+      }
+    }
+    return res;
+  };
+
+  // Function to convert objects to a string representation
+  const objectToString = ( obj ) =>
+  {
+    return Object.values( obj ).join( " " );
   };
 
   const downloadExcel = () =>
@@ -99,7 +135,11 @@ export default function JsonToExcel ()
               onChange={handleJsonInput}
               value={code}
               options={{
-                placeholder: 'Paste or type your JSON here...\nExample: [{"name":"John", "age":30}, {"name":"Jane", "age":25}]',
+                placeholder: `Paste or type your JSON here...
+                  Example: '
+                  1. {"name":"John", "DOB":"MMDDYYYY"} OR 
+                  2. {"name":"John", "DOB":[{"Month": MM,"Day": DD, "Year":"YYYY"}]} OR 
+                  3. [{"name":"John", "DOB":"MMDDYY"}, {"name":"Jane", "age":25}]`,
                 tabSize: 2,
                 automaticLayout: true,
                 lineNumbers: "on",
