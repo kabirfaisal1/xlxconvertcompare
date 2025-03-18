@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Heading from "@/components/ui/heading";
 import { TableSection } from "@/components/ui/resizableTableSections";
-
+import { ToastContainer, toast } from "react-toastify";
 export default function ExcelComparison ()
 {
   const [fileOneData, setFileOneData] = useState( [] );
@@ -137,7 +137,8 @@ export default function ExcelComparison ()
         }
       } catch ( error )
       {
-        console.error( "Error processing file:", error );
+        toast.error( "Error processing file:", error );
+
         setLoading( false );
       }
     };
@@ -174,6 +175,7 @@ export default function ExcelComparison ()
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
+      <ToastContainer />
       <Heading title="Compare Excel Files" description="Upload two Excel files to compare their data." />
       <Separator className="my-4" />
 

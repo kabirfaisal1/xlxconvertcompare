@@ -259,13 +259,13 @@ export default function ExcelConverter ()
   {
     navigator.clipboard.writeText( state.codeSnippet ).then( () =>
     {
-      toast.success( "Code copied to clipboard!" ); // Show toast message
+      toast.success( "Code copied to clipboard!" );
     } );
   };
 
   return (
     <div style={{ padding: "20px", maxWidth: "800px", margin: "auto" }}>
-      <ToastContainer /> {/* Ensure ToastContainer is placed outside of Button */}
+      <ToastContainer />
 
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
