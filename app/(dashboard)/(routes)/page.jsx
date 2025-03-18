@@ -42,7 +42,7 @@ export default function Home ()
               height={200}
             />
             <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
-              The Problem We Solve
+              The Problem I Solved
             </h2>
           </div>
 
