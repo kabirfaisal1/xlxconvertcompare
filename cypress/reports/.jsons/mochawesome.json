@@ -1,0 +1,209 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 4,
+    "pending": 0,
+    "failures": 2,
+    "start": "2025-03-23T04:21:18.131Z",
+    "end": "2025-03-23T04:21:40.257Z",
+    "duration": 22126,
+    "testsRegistered": 6,
+    "passPercent": 66.66666666666666,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "4628f741-8ce7-4ca2-8564-1afc2e2aac79",
+      "title": "",
+      "fullFile": "cypress/e2e/excelConverter.cy.js",
+      "file": "cypress/e2e/excelConverter.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "9effcffa-d9ac-4a09-9ea9-304b41d01ed2",
+          "title": "Excel File Uploader & Converter",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Upload Excel and Convert to JS [C9]",
+              "fullTitle": "Excel File Uploader & Converter Upload Excel and Convert to JS [C9]",
+              "timedOut": null,
+              "duration": 10910,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('[data-testid=\"variable-name-input-field\"]').should('be.visible').type('JSVariable').should('have.value', 'JSVariable');\ncy.get('button[role=\"combobox\"]').click();\ncy.get('select').select('JavaScript', {\n  force: true\n});\ncy.get('span[data-slot=\"select-value\"]').should('have.text', 'JavaSript');\n// Upload the Excel file\ncy.get('input[type=\"file\"]').selectFile('cypress/fixtures/2Game_of_Thrones_Cast_List_with_Earnings.xlsx', {\n  force: true\n});\ncy.get('[data-testid=\"totalEntries_count\"]').should('be.visible');",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: expected '<span>' to have text 'JavaSript', but the text was 'JavaScript'",
+                "estack": "AssertionError: Timed out retrying after 10000ms: expected '<span>' to have text 'JavaSript', but the text was 'JavaScript'\n    at Context.eval (webpack://xlxconvertcompare/./cypress/e2e/excelConverter.cy.js:15:51)",
+                "diff": "- 'JavaScript'\n+ 'JavaSript'\n"
+              },
+              "uuid": "6c0841ef-8e07-4105-9073-22e6c11390ec",
+              "parentUUID": "9effcffa-d9ac-4a09-9ea9-304b41d01ed2",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Upload Excel and Convert to JSON [C7]",
+              "fullTitle": "Excel File Uploader & Converter Upload Excel and Convert to JSON [C7]",
+              "timedOut": null,
+              "duration": 10319,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('[data-testid=\"variable-name-input-field\"]').should('be.visible').type('JSONVariable').should('have.value', 'Json');\ncy.get('button[role=\"combobox\"]').click();\ncy.get('select').select('Json', {\n  force: true\n});\ncy.get('span[data-slot=\"select-value\"]').should('have.text', 'JavaScript');\n// Upload the Excel file\ncy.get('input[type=\"file\"]').selectFile('cypress/fixtures/2Game_of_Thrones_Cast_List_with_Earnings.xlsx', {\n  force: true\n});\ncy.get('[data-testid=\"totalEntries_count\"]').should('be.visible');",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: expected '<input#«R6jrnbl7»-form-item.border.p-2.w-full>' to have value 'Json', but the value was 'JSONVariable'",
+                "estack": "AssertionError: Timed out retrying after 10000ms: expected '<input#«R6jrnbl7»-form-item.border.p-2.w-full>' to have value 'Json', but the value was 'JSONVariable'\n    at Context.eval (webpack://xlxconvertcompare/./cypress/e2e/excelConverter.cy.js:23:108)",
+                "diff": "- 'JSONVariable'\n+ 'Json'\n"
+              },
+              "uuid": "d797775f-f418-4d8f-9b3e-0eddb7725a04",
+              "parentUUID": "9effcffa-d9ac-4a09-9ea9-304b41d01ed2",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Upload Excel and Convert to C# [C4]",
+              "fullTitle": "Excel File Uploader & Converter Upload Excel and Convert to C# [C4]",
+              "timedOut": null,
+              "duration": 202,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "185682b7-a6fe-41aa-b4f6-084bc14fbd69",
+              "parentUUID": "9effcffa-d9ac-4a09-9ea9-304b41d01ed2",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Upload Excel and Convert to TypeScript [C3]",
+              "fullTitle": "Excel File Uploader & Converter Upload Excel and Convert to TypeScript [C3]",
+              "timedOut": null,
+              "duration": 181,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "fb434735-d947-482a-887a-c737b98e8729",
+              "parentUUID": "9effcffa-d9ac-4a09-9ea9-304b41d01ed2",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Upload Excel and Convert to Python [C5]",
+              "fullTitle": "Excel File Uploader & Converter Upload Excel and Convert to Python [C5]",
+              "timedOut": null,
+              "duration": 175,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "92817437-d1ae-4305-8460-d32a214f7d21",
+              "parentUUID": "9effcffa-d9ac-4a09-9ea9-304b41d01ed2",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Upload Excel and Convert to Any format and switch [C6]",
+              "fullTitle": "Excel File Uploader & Converter Upload Excel and Convert to Any format and switch [C6]",
+              "timedOut": null,
+              "duration": 168,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "67d94438-0ea9-4c54-897f-9db058568139",
+              "parentUUID": "9effcffa-d9ac-4a09-9ea9-304b41d01ed2",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "185682b7-a6fe-41aa-b4f6-084bc14fbd69",
+            "fb434735-d947-482a-887a-c737b98e8729",
+            "92817437-d1ae-4305-8460-d32a214f7d21",
+            "67d94438-0ea9-4c54-897f-9db058568139"
+          ],
+          "failures": [
+            "6c0841ef-8e07-4105-9073-22e6c11390ec",
+            "d797775f-f418-4d8f-9b3e-0eddb7725a04"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 21955,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports/.jsons",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

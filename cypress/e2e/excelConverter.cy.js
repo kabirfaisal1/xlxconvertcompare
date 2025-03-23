@@ -4,23 +4,23 @@ describe( 'Excel File Uploader & Converter', () =>
     beforeEach( () =>
     {
         // Visit the application page
-        cy.visit( 'excelConverter' );
+        cy.visit( '/excelConverter' );
     }
     );
-    it( 'Upload Excel and Convert to JS [C1]', () =>
+    it( 'Upload Excel and Convert to JS [C9]', () =>
     {
         cy.get( '[data-testid="variable-name-input-field"]' ).should( 'be.visible' ).type( 'JSVariable' ).should( 'have.value', 'JSVariable' );
         cy.get( 'button[role="combobox"]' ).click();
         cy.get( 'select' ).select( 'JavaScript', { force: true } );
-        cy.get( 'span[data-slot="select-value"]' ).should( 'have.text', 'JavaScript' );
+        cy.get( 'span[data-slot="select-value"]' ).should( 'have.text', 'JavaSript' );
         // Upload the Excel file
         cy.get( 'input[type="file"]' ).selectFile( 'cypress/fixtures/2Game_of_Thrones_Cast_List_with_Earnings.xlsx', { force: true } );
         cy.get( '[data-testid="totalEntries_count"]' ).should( 'be.visible' );
 
     } );
-    it( 'Upload Excel and Convert to JSON [C2]', () =>
+    it( 'Upload Excel and Convert to JSON [C7]', () =>
     {
-        cy.get( '[data-testid="variable-name-input-field"]' ).should( 'be.visible' ).type( 'JSONVariable' ).should( 'have.value', 'JSVariable' );
+        cy.get( '[data-testid="variable-name-input-field"]' ).should( 'be.visible' ).type( 'JSONVariable' ).should( 'have.value', 'Json' );
         cy.get( 'button[role="combobox"]' ).click();
         cy.get( 'select' ).select( 'Json', { force: true } );
         cy.get( 'span[data-slot="select-value"]' ).should( 'have.text', 'JavaScript' );
