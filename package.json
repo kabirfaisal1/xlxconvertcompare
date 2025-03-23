@@ -11,7 +11,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+      
+  "test": "cypress run",
+  "posttest": "cypress-xporter --jira --testrail --confluence",
+  "test:push": "npm run test || true && npm run posttest && rm -rf cypress/reports"
+
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
