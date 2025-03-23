@@ -10,7 +10,6 @@ module.exports = defineConfig( {
   reporterOptions: {
     reportDir: 'cypress/reports',
     overwrite: true,
-
   },
   e2e: {
     specPattern: "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}",
