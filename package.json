@@ -12,11 +12,9 @@
     "start": "next start",
     "lint": "next lint",
     "heroku-postbuild": "npm run build",
-      
-  "test": "cypress run",
-  "posttest": "cypress-xporter --jira --testrail --confluence",
-  "test:push": "npm run test || true && npm run posttest && rm -rf cypress/reports"
-
+    "test": "cypress run",
+    "posttest": "cypress-xporter --jira --testrail --confluence",
+    "test:push": "npm run test || true && npm run posttest && rm -rf cypress/reports"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
@@ -49,7 +47,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "cypress": "^14.2.0",
-    "cypress-xporter": "^1.2.4",
+    "cypress-xporter": "^1.2.5",
     "eslint": "^9",
     "eslint-config-next": "15.2.2",
     "tailwindcss": "^4"
