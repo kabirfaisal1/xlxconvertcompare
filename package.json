@@ -11,7 +11,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:e2e": "cypress run --headless"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
@@ -41,6 +44,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "cypress": "^15.10.0",
     "eslint": "^9",
     "eslint-config-next": "15.2.2",
     "tailwindcss": "^4"
